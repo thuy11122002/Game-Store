@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_store_app/views/filter_page.dart';
 import 'package:game_store_app/views/home.dart';
 import 'package:game_store_app/views/landing_game_page.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: Scaffold(
-          body: Home(),
+          body: FilterPage(),
         ));
   }
 }
