@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_store_app/services/auth_service.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LandingGamePage extends StatefulWidget {
@@ -17,9 +18,34 @@ class _LandingGamePageState extends State<LandingGamePage> {
     "assets/images/Game/ArtStation - Ori and the Blind Forest_ Cover….jpg",
     "assets/images/Game/Ori and the Will of the Wisps.jpg",
   ];
+
+  final AuthService _authService = AuthService();
+
+  void _logout() async {
+    _authService.logout(context);
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.all(8),
+            children: [
+              ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Logout'),
+                onTap: () => _logout(),
+              ),
+              ListTile(title: Text('Item 2')),
+            ],
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           SizedBox(
@@ -42,7 +68,10 @@ class _LandingGamePageState extends State<LandingGamePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        onPressed: () => {},
+                        onPressed: () => {
+                              _scaffoldKey.currentState?.openDrawer()
+                              // _logout()
+                            },
                         icon: Icon(
                           Icons.menu_rounded,
                           size: 36,

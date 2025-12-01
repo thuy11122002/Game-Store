@@ -52,7 +52,7 @@ class AuthService {
   Future<void> logout(BuildContext context) async {
     try {
       await supabase.auth.signOut();
-      if (context.mounted) return;
+      if (!context.mounted) return;
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (_) => LoginPage()));
     } catch (e) {

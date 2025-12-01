@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:game_store_app/services/auth_service.dart';
+import 'package:game_store_app/views/home.dart';
 import 'package:game_store_app/views/signup_page.dart';
+import 'package:game_store_app/widgets/snackBar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,6 +12,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthService _authService = AuthService();
+
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -28,6 +33,37 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  bool isLoadin = false;
+
+  void _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      isLoadin = true;
+    });
+
+    final result = await _authService.signIn(email, password);
+
+    if (result == null) {
+      setState(() {
+        isLoadin = false;
+      });
+      showSnackBar(context, "Dang nhap thanh cong, dang chuyen man hinh");
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => Home()));
+    } else {
+      setState(() {
+        isLoadin = false;
+      });
+      showSnackBar(context, "Dang nhap that bai: $result");
+    }
   }
 
   @override
@@ -56,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 40),
               TextFormField(
                 controller: _emailController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                     labelText: "Email", border: OutlineInputBorder()),
                 validator: (value) => value == null || !value.contains('@')
@@ -65,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
+                style: TextStyle(color: Colors.white),
                 obscureText: true,
                 decoration: InputDecoration(
                     labelText: "Password", border: OutlineInputBorder()),
@@ -89,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => _login(),
                 child: Text("Login"),
               ),
               SizedBox(height: 10),
