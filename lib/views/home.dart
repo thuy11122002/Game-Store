@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:game_store_app/models/product_model.dart';
 import 'package:game_store_app/services/auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,6 +28,201 @@ class _HomeState extends State<Home> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late Future<List<Product>> futureProduct = fetchProduct();
+
+  List<Product> products = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    initializeData();
+    super.initState();
+  }
+
+  void initializeData() async {
+    try {
+      final products = await futureProduct;
+      if (products.isNotEmpty) {
+        setState(() {
+          this.products = products;
+        });
+      }
+    } catch (e) {
+      print("Initialization Error: $e");
+    }
+  }
+
+  Future<List<Product>> fetchProduct() async {
+    try {
+      final reponse = await Supabase.instance.client.from("product").select();
+
+      return (reponse as List).map((json) => Product.fromJson(json)).toList();
+    } catch (e) {
+      print("Error fetching product: $e");
+      return [];
+    }
+  }
+
+  Widget _buildSpecialDealProductList() {
+    return FutureBuilder(
+        future: futureProduct,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError ||
+              !snapshot.hasData ||
+              snapshot.data!.isEmpty) {
+            return SizedBox.shrink();
+          }
+          return Container(
+            height: 400,
+            padding: EdgeInsets.only(left: 24),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: 160,
+                    margin: EdgeInsets.only(right: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          width: 160,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              products[index].image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Weekend Deal",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Offer ends 21 Apr @ 12:00am",
+                          maxLines: null,
+                          style: TextStyle(color: Colors.white38, fontSize: 14),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          width: 100,
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                              color: Colors.purple,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Text(
+                            "Up to - 83%",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+          );
+        });
+  }
+
+  Widget _buildProductList() {
+    return FutureBuilder(
+        future: futureProduct,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError ||
+              !snapshot.hasData ||
+              snapshot.data!.isEmpty) {
+            return SizedBox.shrink();
+          }
+          return Container(
+            height: 240,
+            padding: EdgeInsets.only(left: 0),
+            child: PageView.builder(
+              controller: controller,
+              itemCount: products.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 240,
+                  width: 320,
+                  margin: EdgeInsets.only(right: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    image: DecorationImage(
+                      image: Image.network(products[index].image).image,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black,
+                          ],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Container(
+                          // padding: EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                products[index].name,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                              Text(
+                                products[index].description,
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white38, fontSize: 14),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,79 +379,7 @@ class _HomeState extends State<Home> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                height: 240,
-                                padding: EdgeInsets.only(left: 0),
-                                child: PageView.builder(
-                                  controller: controller,
-                                  itemCount: images.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      height: 240,
-                                      width: 320,
-                                      margin: EdgeInsets.only(right: 12),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(24),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/Game/Ori and the Will of the Wisps.jpg"),
-                                          fit: BoxFit.cover,
-                                          alignment: Alignment.topCenter,
-                                        ),
-                                      ),
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Container(
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(24),
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.transparent,
-                                                Colors.black,
-                                              ],
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(8),
-                                            child: Container(
-                                              // padding: EdgeInsets.all(8),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "Ori and The Will of The Wisps",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20),
-                                                  ),
-                                                  Text(
-                                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-                                                    maxLines: 1,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white38,
-                                                        fontSize: 14),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
+                              _buildProductList(),
                               SizedBox(
                                 height: 20,
                               ),
@@ -290,76 +415,77 @@ class _HomeState extends State<Home> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                height: 400,
-                                padding: EdgeInsets.only(left: 24),
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: images.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        width: 160,
-                                        margin: EdgeInsets.only(right: 12),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: 180,
-                                              width: 160,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                child: Image.asset(
-                                                  "assets/images/Game/Ori and the Will of the Wisps.jpg",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              "Weekend Deal",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              "Offer ends 21 Apr @ 12:00am",
-                                              maxLines: null,
-                                              style: TextStyle(
-                                                  color: Colors.white38,
-                                                  fontSize: 14),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Container(
-                                              width: 100,
-                                              padding: EdgeInsets.all(12),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.purple,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12)),
-                                              child: Text(
-                                                "Up to - 83%",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              )
+                              // Container(
+                              //   height: 400,
+                              //   padding: EdgeInsets.only(left: 24),
+                              //   child: ListView.builder(
+                              //       scrollDirection: Axis.horizontal,
+                              //       itemCount: images.length,
+                              //       itemBuilder: (context, index) {
+                              //         return Container(
+                              //           width: 160,
+                              //           margin: EdgeInsets.only(right: 12),
+                              //           child: Column(
+                              //             crossAxisAlignment:
+                              //                 CrossAxisAlignment.start,
+                              //             children: [
+                              //               SizedBox(
+                              //                 height: 180,
+                              //                 width: 160,
+                              //                 child: ClipRRect(
+                              //                   borderRadius:
+                              //                       BorderRadius.circular(12),
+                              //                   child: Image.asset(
+                              //                     "assets/images/Game/Ori and the Will of the Wisps.jpg",
+                              //                     fit: BoxFit.cover,
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //               SizedBox(
+                              //                 height: 8,
+                              //               ),
+                              //               Text(
+                              //                 "Weekend Deal",
+                              //                 style: TextStyle(
+                              //                     color: Colors.white,
+                              //                     fontWeight: FontWeight.bold,
+                              //                     fontSize: 16),
+                              //               ),
+                              //               SizedBox(
+                              //                 height: 8,
+                              //               ),
+                              //               Text(
+                              //                 "Offer ends 21 Apr @ 12:00am",
+                              //                 maxLines: null,
+                              //                 style: TextStyle(
+                              //                     color: Colors.white38,
+                              //                     fontSize: 14),
+                              //               ),
+                              //               SizedBox(
+                              //                 height: 8,
+                              //               ),
+                              //               Container(
+                              //                 width: 100,
+                              //                 padding: EdgeInsets.all(12),
+                              //                 decoration: BoxDecoration(
+                              //                     color: Colors.purple,
+                              //                     borderRadius:
+                              //                         BorderRadius.circular(
+                              //                             12)),
+                              //                 child: Text(
+                              //                   "Up to - 83%",
+                              //                   style: TextStyle(
+                              //                       color: Colors.white,
+                              //                       fontWeight:
+                              //                           FontWeight.bold),
+                              //                 ),
+                              //               )
+                              //             ],
+                              //           ),
+                              //         );
+                              //       }),
+                              // )
+                              _buildSpecialDealProductList()
                             ],
                           ),
                         ),

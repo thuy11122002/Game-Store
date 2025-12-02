@@ -29,7 +29,26 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: Scaffold(
-          body: SignupPage(),
+          body: AuthCheck(),
         ));
+  }
+}
+
+class AuthCheck extends StatelessWidget {
+  final supabase = Supabase.instance.client;
+  AuthCheck({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: supabase.auth.onAuthStateChange,
+        builder: (context, snapshot) {
+          final session = supabase.auth.currentSession;
+          if (session != null) {
+            return Home();
+          } else {
+            return LoginPage();
+          }
+        });
   }
 }

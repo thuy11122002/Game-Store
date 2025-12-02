@@ -19,7 +19,6 @@ class _FilterPageState extends State<FilterPage> {
     "RPG",
     "Simulation",
     "Survival",
-    "Racing",
   ];
 
   @override
