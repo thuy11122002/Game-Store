@@ -4,6 +4,7 @@ import 'package:game_store_app/views/home.dart';
 import 'package:game_store_app/views/landing_game_page.dart';
 import 'package:game_store_app/views/login_page.dart';
 import 'package:game_store_app/views/signup_page.dart';
+import 'package:game_store_app/views/widget_tree.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -45,10 +46,24 @@ class AuthCheck extends StatelessWidget {
         builder: (context, snapshot) {
           final session = supabase.auth.currentSession;
           if (session != null) {
-            return Home();
+            return MyHomePage();
           } else {
             return LoginPage();
           }
         });
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return WidgetTree();
   }
 }

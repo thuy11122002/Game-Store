@@ -14,13 +14,7 @@ class _HomeState extends State<Home> {
   final PageController controller = PageController(
     viewportFraction: 0.8,
   );
-  final List<String> images = [
-    "assets/images/Game/Ori and the Will of the Wisps.jpg",
-    "assets/images/Game/ArtStation - Ori and the Blind Forest_ Cover….jpg",
-    "assets/images/Game/Ori and the Will of the Wisps.jpg",
-    "assets/images/Game/ArtStation - Ori and the Blind Forest_ Cover….jpg",
-    "assets/images/Game/Ori and the Will of the Wisps.jpg",
-  ];
+
   final AuthService _authService = AuthService();
 
   void _logout() async {
@@ -81,7 +75,7 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.only(left: 24),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: products.length,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Container(
                     width: 160,
@@ -159,7 +153,7 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.only(left: 0),
             child: PageView.builder(
               controller: controller,
-              itemCount: products.length,
+              itemCount: 5,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return Container(
@@ -288,57 +282,57 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 320,
-                            height: 60,
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color:
-                                  Color.fromRGBO(40, 17, 61, 1), // màu nền tím
-                              borderRadius:
-                                  BorderRadius.circular(12), // bo góc tròn
-                            ),
-                            child: TextField(
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold, // màu hint
+                    // Container(
+                    //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                    //   child: Row(
+                    //     children: [
+                    //       Container(
+                    //         width: 320,
+                    //         height: 60,
+                    //         padding: EdgeInsets.all(16),
+                    //         decoration: BoxDecoration(
+                    //           color:
+                    //               Color.fromRGBO(40, 17, 61, 1), // màu nền tím
+                    //           borderRadius:
+                    //               BorderRadius.circular(12), // bo góc tròn
+                    //         ),
+                    //         child: TextField(
+                    //           style: TextStyle(
+                    //               fontSize: 20,
+                    //               fontWeight: FontWeight.bold, // màu hint
 
-                                  color: Color.fromRGBO(
-                                      109, 76, 146, 1)), // màu chữ
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Type something",
-                                hintStyle: TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromRGBO(109, 76, 146, 1),
-                                    fontWeight: FontWeight.bold), // màu hint
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 40,
-                          ),
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Colors.purple),
-                            child: IconButton(
-                                onPressed: () => {},
-                                icon: Icon(
-                                  Icons.search_rounded,
-                                  color: Colors.white,
-                                  size: 32,
-                                )),
-                          )
-                        ],
-                      ),
-                    ),
+                    //               color: Color.fromRGBO(
+                    //                   109, 76, 146, 1)), // màu chữ
+                    //           decoration: InputDecoration(
+                    //             border: InputBorder.none,
+                    //             hintText: "Type something",
+                    //             hintStyle: TextStyle(
+                    //                 fontSize: 20,
+                    //                 color: Color.fromRGBO(109, 76, 146, 1),
+                    //                 fontWeight: FontWeight.bold), // màu hint
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       SizedBox(
+                    //         width: 40,
+                    //       ),
+                    //       Container(
+                    //         width: 60,
+                    //         height: 60,
+                    //         decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(100),
+                    //             color: Colors.purple),
+                    //         child: IconButton(
+                    //             onPressed: () => {},
+                    //             icon: Icon(
+                    //               Icons.search_rounded,
+                    //               color: Colors.white,
+                    //               size: 32,
+                    //             )),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -415,76 +409,6 @@ class _HomeState extends State<Home> {
                               SizedBox(
                                 height: 20,
                               ),
-                              // Container(
-                              //   height: 400,
-                              //   padding: EdgeInsets.only(left: 24),
-                              //   child: ListView.builder(
-                              //       scrollDirection: Axis.horizontal,
-                              //       itemCount: images.length,
-                              //       itemBuilder: (context, index) {
-                              //         return Container(
-                              //           width: 160,
-                              //           margin: EdgeInsets.only(right: 12),
-                              //           child: Column(
-                              //             crossAxisAlignment:
-                              //                 CrossAxisAlignment.start,
-                              //             children: [
-                              //               SizedBox(
-                              //                 height: 180,
-                              //                 width: 160,
-                              //                 child: ClipRRect(
-                              //                   borderRadius:
-                              //                       BorderRadius.circular(12),
-                              //                   child: Image.asset(
-                              //                     "assets/images/Game/Ori and the Will of the Wisps.jpg",
-                              //                     fit: BoxFit.cover,
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //               SizedBox(
-                              //                 height: 8,
-                              //               ),
-                              //               Text(
-                              //                 "Weekend Deal",
-                              //                 style: TextStyle(
-                              //                     color: Colors.white,
-                              //                     fontWeight: FontWeight.bold,
-                              //                     fontSize: 16),
-                              //               ),
-                              //               SizedBox(
-                              //                 height: 8,
-                              //               ),
-                              //               Text(
-                              //                 "Offer ends 21 Apr @ 12:00am",
-                              //                 maxLines: null,
-                              //                 style: TextStyle(
-                              //                     color: Colors.white38,
-                              //                     fontSize: 14),
-                              //               ),
-                              //               SizedBox(
-                              //                 height: 8,
-                              //               ),
-                              //               Container(
-                              //                 width: 100,
-                              //                 padding: EdgeInsets.all(12),
-                              //                 decoration: BoxDecoration(
-                              //                     color: Colors.purple,
-                              //                     borderRadius:
-                              //                         BorderRadius.circular(
-                              //                             12)),
-                              //                 child: Text(
-                              //                   "Up to - 83%",
-                              //                   style: TextStyle(
-                              //                       color: Colors.white,
-                              //                       fontWeight:
-                              //                           FontWeight.bold),
-                              //                 ),
-                              //               )
-                              //             ],
-                              //           ),
-                              //         );
-                              //       }),
-                              // )
                               _buildSpecialDealProductList()
                             ],
                           ),

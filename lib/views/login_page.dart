@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_store_app/main.dart';
 import 'package:game_store_app/services/auth_service.dart';
 import 'package:game_store_app/views/home.dart';
 import 'package:game_store_app/views/signup_page.dart';
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       showSnackBar(context, "Dang nhap thanh cong, dang chuyen man hinh");
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => Home()));
+          .pushReplacement(MaterialPageRoute(builder: (_) => MyHomePage()));
     } else {
       setState(() {
         isLoadin = false;
