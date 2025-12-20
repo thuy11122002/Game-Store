@@ -288,20 +288,22 @@ class _FilterPageState extends State<FilterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                          onPressed: () => {},
-                          icon: Icon(
-                            Icons.menu_rounded,
-                            size: 36,
-                            color: Colors.white,
-                          )),
-                      IconButton(
-                          onPressed: () => {},
-                          icon: Icon(
-                            Icons.card_travel_sharp,
-                            size: 36,
-                            color: Colors.white,
-                          )),
+                      Text(
+                        "Your Games Collections",
+                        style: TextStyle(
+                            color: Color.fromRGBO(109, 76, 146, 1),
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: const BoxDecoration(
+                          color: Colors.black45,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.person,
+                            color: Colors.white, size: 24),
+                      ),
                     ],
                   ),
                 ],
@@ -312,21 +314,6 @@ class _FilterPageState extends State<FilterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 24),
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Text(
-                      "Your Games Collections",
-                      style: TextStyle(
-                        color: Color.fromRGBO(109, 76, 146, 1),
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Container(
                     height: 36,
                     padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),

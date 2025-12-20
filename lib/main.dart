@@ -3,7 +3,9 @@ import 'package:game_store_app/views/filter_page.dart';
 import 'package:game_store_app/views/home.dart';
 import 'package:game_store_app/views/landing_game_page.dart';
 import 'package:game_store_app/views/login_page.dart';
+import 'package:game_store_app/views/posts_page.dart';
 import 'package:game_store_app/views/signup_page.dart';
+import 'package:game_store_app/views/test.dart';
 import 'package:game_store_app/views/widget_tree.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

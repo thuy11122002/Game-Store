@@ -257,21 +257,22 @@ class _HomeState extends State<Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                            onPressed: () =>
-                                {_scaffoldKey.currentState?.openDrawer()},
-                            icon: Icon(
-                              Icons.menu_rounded,
-                              size: 36,
-                              color: Colors.white,
-                            )),
-                        IconButton(
-                            onPressed: () => {},
-                            icon: Icon(
-                              Icons.card_travel_sharp,
-                              size: 36,
-                              color: Colors.white,
-                            )),
+                        Text(
+                          "Game",
+                          style: TextStyle(
+                              color: Color.fromRGBO(109, 76, 146, 1),
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: Colors.black45,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.person,
+                              color: Colors.white, size: 24),
+                        ),
                       ],
                     ),
                   ],
@@ -282,57 +283,6 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Container(
-                    //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                    //   child: Row(
-                    //     children: [
-                    //       Container(
-                    //         width: 320,
-                    //         height: 60,
-                    //         padding: EdgeInsets.all(16),
-                    //         decoration: BoxDecoration(
-                    //           color:
-                    //               Color.fromRGBO(40, 17, 61, 1), // màu nền tím
-                    //           borderRadius:
-                    //               BorderRadius.circular(12), // bo góc tròn
-                    //         ),
-                    //         child: TextField(
-                    //           style: TextStyle(
-                    //               fontSize: 20,
-                    //               fontWeight: FontWeight.bold, // màu hint
-
-                    //               color: Color.fromRGBO(
-                    //                   109, 76, 146, 1)), // màu chữ
-                    //           decoration: InputDecoration(
-                    //             border: InputBorder.none,
-                    //             hintText: "Type something",
-                    //             hintStyle: TextStyle(
-                    //                 fontSize: 20,
-                    //                 color: Color.fromRGBO(109, 76, 146, 1),
-                    //                 fontWeight: FontWeight.bold), // màu hint
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       SizedBox(
-                    //         width: 40,
-                    //       ),
-                    //       Container(
-                    //         width: 60,
-                    //         height: 60,
-                    //         decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(100),
-                    //             color: Colors.purple),
-                    //         child: IconButton(
-                    //             onPressed: () => {},
-                    //             icon: Icon(
-                    //               Icons.search_rounded,
-                    //               color: Colors.white,
-                    //               size: 32,
-                    //             )),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 20,
                     ),

@@ -5,12 +5,14 @@ import 'package:game_store_app/views/filter_page.dart';
 import 'package:game_store_app/views/home.dart';
 import 'package:game_store_app/views/landing_game_page.dart';
 import 'package:game_store_app/views/login_page.dart';
+import 'package:game_store_app/views/posts_page.dart';
 import 'package:game_store_app/widgets/bottomNavbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final AuthService _authService = AuthService();
 
 List<Widget> pages = [
+  PostsPage(),
   Home(),
   // FriendsPage(),
   LandingGamePage(),
